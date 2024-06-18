@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="Maven: org.apache.poi:poi-ooxml:3.17" type="java-imported" external-system-id="Maven">
+    <properties groupId="org.apache.poi" artifactId="poi-ooxml" version="3.17" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/poi/poi-ooxml/3.17/poi-ooxml-3.17.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/poi/poi-ooxml/3.17/poi-ooxml-3.17-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/apache/poi/poi-ooxml/3.17/poi-ooxml-3.17-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
