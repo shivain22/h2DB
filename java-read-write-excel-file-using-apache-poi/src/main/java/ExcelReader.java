@@ -3,6 +3,7 @@ import org.apache.poi.ss.usermodel.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Executable;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -12,7 +13,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class ExcelReader {
-    private static final String SAMPLE_XLSX_FILE_PATH = "./Jume 2023 - 20 May 2024 merged file.xlsx";
+    private static final String SAMPLE_XLSX_FILE_PATH = "./Jume 2023 - 20 May 2024 merged file_2.xlsx";
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/trail_excel";
     private static final String JDBC_USER = "root";
     private static final String JDBC_PASSWORD = "mysql";
@@ -56,11 +57,17 @@ public class ExcelReader {
                     Row row = rowIterator.next();
                     List<String> rowValues = new ArrayList<>();
                     Iterator<Cell> cellIterator = row.cellIterator();
-
-                    while (cellIterator.hasNext()) {
-                        Cell cell = cellIterator.next();
+                    int j=0;
+                    while (j<colNames.size() || cellIterator.hasNext()) {
+                        Cell cell=null;
+                        try {
+                            cell = cellIterator.next();
+                        }catch (Exception e){
+                            System.out.println("Exception in cell iterator for row "+row.getRowNum()+": Cell is Empty for column: "+colNames.get(j));
+                        }
                         String cellValue = dataFormatter.formatCellValue(cell);
                         rowValues.add(cellValue);
+                        j++;
                     }
 
                     // Log the number of columns and values
@@ -149,7 +156,13 @@ public class ExcelReader {
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(insertSQL.toString())) {
             for (int i = 0; i < data.size(); i++) {
-                preparedStatement.setString(i + 1, data.get(i));
+                if(data.get(i).equals("")){
+                    preparedStatement.setString(i + 1,null);
+                }
+                else{
+                    preparedStatement.setString(i + 1, data.get(i));
+                }
+
             }
             preparedStatement.executeUpdate();
         }
